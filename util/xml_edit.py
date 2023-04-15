@@ -41,14 +41,24 @@ class Permissions():
                 return True
         return False
     
+    # Retrieves all the permissions of a given steamid
+    def retrievePermissions(self, steamid):
+        perms = []
+        for permission in self.ref.ref.getroot().iter('Group'):
+            if (self.checkPermission(permission.find('Id').text, steamid)):
+                perms.append(permission.find('Id').text)
+        return perms
+    
     # Adds steamid to a given permission group
     # If the permission group does not exist, it returns False
     # Else returns True
     def addPermission(self, permission, steamid):
         # Check if steamid is already in the group
+        members = self.retrieveMembers(permission)
+        if (members == False):
+            return False
         if (self.checkPermission(permission, steamid)):
             return False
-        members = self.retrieveMembers(permission)
         ET.SubElement(members, 'Member').text = steamid
         self.ref.save(self.ref.file)
         return True
@@ -57,12 +67,14 @@ class Permissions():
     # If the user if not in the permssion group, returns False
     # If the group does not exist, returns False
     # Else returns True
-
-    
-# Example usage
-xml = XML('./files/Permissions.config.xml')
-perms = Permissions(xml)
-print(perms.checkPermission('admin', '76561198089828341')) #should be True
-print(perms.retrieveMembers('admin')[1].text) #should return a list of members
-print(perms.addPermission('admin', '76561197997040330')) #should return True
-print(perms.addPermission('admin', '76561198089828341')) #should return False
+    def removePermission(self, permission, steamid):
+        members = self.retrieveMembers(permission)
+        if (members == False):
+            return False
+        if (self.checkPermission(permission, steamid) == False):
+            return False
+        for member in members:
+            if (member.text.lower() == steamid.lower()):
+                members.remove(member)
+                self.ref.save(self.ref.file)
+                return True
