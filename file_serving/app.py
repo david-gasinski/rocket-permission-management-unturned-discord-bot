@@ -17,8 +17,3 @@ def permissions():
     resp = make_response(render_template('Kits.configuration.xml'))
     resp.headers['Content-Tyhttps://dl.dropboxusercontent.com/s/4ibdkww0egek8r5/perm_management.zippe'] = 'text/plain; charset=utf-8'
     return resp
-
-pip install flask-restful
-pip install python-dotenv
-pip install elementpath
-pip install -U discord.py

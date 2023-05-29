@@ -74,7 +74,6 @@ async def perms(ctx, command, *args):
             if perm in blacklisted:
                 await channel.send(f'*{perm}* is a **restricted** permission.')
                 logCommand(ctx, command, False)
-                pass
             else:
                 response = sendRequest(steamid, perm.lower(), command)
                 logCommand(ctx, command, response['status'])
@@ -94,8 +93,10 @@ async def perms(ctx, command, *args):
     elif command == 'view':
         response = sendRequest(steamid, None, command)
         markdown_response = f'The steamid *{steamid}* has the following permissions:'
+        
         for perm in response['message']:
             markdown_response += f'\n > {perm}'
+        
         logCommand(ctx, command, True)
         await channel.send(markdown_response)
     elif command == 'check':
