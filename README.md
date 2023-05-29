@@ -31,7 +31,7 @@ git clone https://github.com/david-gasinski/rocket-permission-management-unturne
 
 2. Create a virtual python environment
 ```bash
-	python3 -m venv venv
+python3 -m venv venv
 ```
 
 3. Install dependencies
