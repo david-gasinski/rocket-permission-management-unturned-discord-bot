@@ -2,24 +2,23 @@
 
 Usage
 ```
-        Commands:
-            > $perms add [steamid] [permissions]
-            you can add multiple permissions to one steamid. Example:
-                "?perms add 0778312777312736 god demi hecate"
-                This will add God, Demi and Hecate to the steamid 0778312777312736.
+> $perms add [steamid] [permissions]
+    You can add multiple permissions to one steamid. 
+	Example:  "?perms add 0778312777312736 god demi hecate"
+    This will add God, Demi and Hecate to the steamid 0778312777312736.
 
-            > $perms remove [steamid] [permissions]
-            you can remove multiple permissions from a steamid. Example:
-                "?perms remove 0778312777312736 god demi hecate"
-                This will remove God, Demi, Hecate from the steamid 0778312777312736
+> $perms remove [steamid] [permissions]
+    You can remove multiple permissions from a steamid. 
+	Example:  "?perms remove 0778312777312736 god demi hecate"
+    This will remove God, Demi, Hecate from the steamid 0778312777312736
 
-            > $perms view [steamid]
-            allows you to view the permissions of a given steamid. Example:
-                "?perms view 0778312777312736"
+> $perms view [steamid]
+    Allows you to view the permissions of a given steamid. 
+	Example:  "?perms view 0778312777312736"
 
-            > $perms check [steamid] [permission]
-            allows you to check if a steamid has a given permission. This only works for one permission at a time. Example:
-                "?perms check 0778312777312736 hecate"
+> $perms check [steamid] [permission]
+    Allows you to check if a steamid has a given permission. This only works for one permission at a time. 
+	Example:  "?perms check 0778312777312736 hecate"
 ```
 
 
