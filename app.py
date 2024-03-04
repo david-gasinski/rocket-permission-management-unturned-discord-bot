@@ -6,7 +6,7 @@
 # Imports 
 from flask import Flask
 from flask_restful import Resource, Api, reqparse
-from util.xml_edit import Permissions, XML
+from api.xml_edit import Permissions, XML
 from dotenv import load_dotenv
 from os import getenv
 
@@ -44,7 +44,6 @@ class removePermission(Resource):
 class viewPermission(Resource):
     def post(self):
         args = parser.parse_args()
-        print(args)
         data = permissions.retrievePermissions(args['steamid'])
         return {"message" : data}
 
