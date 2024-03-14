@@ -1,18 +1,5 @@
-from fastapi import FastAPI
-from pydantic import BaseModel
-
-app = FastAPI()
-
-class Permission(BaseModel):
-    name: str
-    members: list[str]
-
-class User(BaseModel):
-    steamid: str
-    roles: list[str]
-
 # base commands
-# add / remove user to perm
+# add / remove user to perm - can be done by discord id if user has steam linked
 # view / search all members of a perm
 # filter by steamid and permission
 # view all members of a steam id
@@ -20,4 +7,19 @@ class User(BaseModel):
 
 # interactable
 # add new permission
-    
+
+from typing import Optional
+from fastapi import FastAPI
+from pydantic import BaseModel
+from cbfa import ClassBased
+
+
+app = FastAPI() # new fast api instance
+wrapper = ClassBased(app) 
+
+# types
+
+class SteamID(BaseModel):
+    steam_64: str
+
+
