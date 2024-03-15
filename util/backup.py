@@ -14,10 +14,3 @@ def backup(name, origin, destination):
             backup.write(data)
             backup.close()
         current.close()
-    
-while True:
-    time.sleep(21600)
-    backup(str(datetime.datetime.now()))
-        
-    
-    

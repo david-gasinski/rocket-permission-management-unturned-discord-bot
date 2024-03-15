@@ -15,7 +15,7 @@ def permissions():
     return resp
 
 @app.route('/kits')
-def permissions():
+def kits():
     resp = make_response(render_template('Kits.configuration.xml'))
     resp.headers['Content-Type'] = 'text/plain; charset=utf-8'
     return resp
