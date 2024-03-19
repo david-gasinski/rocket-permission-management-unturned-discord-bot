@@ -6,7 +6,7 @@
 # Imports 
 from flask import Flask
 from flask_restful import Resource, Api, reqparse
-from api.xml_edit import Permissions, XML
+from perms.xml_edit import Permissions, XML
 from dotenv import load_dotenv
 from os import getenv
 

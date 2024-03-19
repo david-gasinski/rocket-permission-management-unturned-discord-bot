@@ -42,12 +42,31 @@ class Permissions():
         return False
     
     # Retrieves all the permissions of a given steamid
-    def retrievePermissions(self, steamid):
-        perms = []
+    def retrievePermissions(self, steamid, include_hex = False):
+        perm_list = []
         for permission in self.ref.ref.getroot().iter('Group'):
             if (self.checkPermission(permission.find('Id').text, steamid)):
-                perms.append(permission.find('Id').text)
-        return perms
+                unit_perm = { "id" : permission.find('Id').text }
+                if include_hex:
+                    unit_perm = {
+                        "name" : permission.find('Id').text,
+                        "colour" : permission.find('Color').text
+                    }
+                perm_list.append(unit_perm)
+        return perm_list
+    
+    # Returns a list of all permissions
+    def listPermissions(self, include_hex=False):
+        perm_list = []
+        for permission in self.ref.ref.getroot().iter('Group'):
+            unit_perm = { "id" : permission.find('Id').text }
+            if include_hex:
+                unit_perm = {
+                    "name" : permission.find('Id').text,
+                    "colour" : permission.find('Color').text
+                }
+            perm_list.append(unit_perm)
+        return perm_list
     
     # Adds steamid to a given permission group
     # If the permission group does not exist, it returns False
