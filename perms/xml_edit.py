@@ -1,12 +1,12 @@
 import xml.etree.ElementTree as ET
 
 # XML Class
-# Loads the inital file and stores it in a variable
+# Loads the initial file and stores it in a variable
 # Saves the edited file
 class XML():
     def __init__(self, file):
         self.file = file
-        self.ref = ET.parse(file) #auto loads the file
+        self.ref = ET.parse(file) # auto loads the file
     
     # Saves the file
     def save(self, path):
