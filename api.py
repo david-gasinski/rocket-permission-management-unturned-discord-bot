@@ -28,6 +28,8 @@ class GetPermission(BaseModel):
 class AddPermission(BaseModel):
     steam_id: str
     permissions: list[str]
+    request_origin: str
+
 
 class Routes():
     def __init__(self, permissions, kits, logger):
@@ -56,8 +58,11 @@ class Routes():
         try:
             for permission in args.permissions:
                 res = self.permissions.addPermission(permission, args.steam_id) # in the future, validate steam_id
+                self.logger.log_request(args.request_origin, self.post_add_user_permission.__name__, res["status"], res["data"])
         except Exception as e:
-            return
+            self.logger.log_request(args.request_origin, self.post_list_permissions.__name__, False)
+            self.logger_instance.error("Exception Stacktrace", exc_info=True)
+            return {"status" : False , "data" : []}
 
 app = FastAPI()
 logger = Logger(f'util/logs/api/{datetime.today( ).strftime("%Y-%m-%d")}.log')

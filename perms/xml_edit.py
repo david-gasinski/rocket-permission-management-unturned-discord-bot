@@ -75,12 +75,12 @@ class Permissions():
         # Check if steamid is already in the group
         members = self.retrieveMembers(permission)
         if (members == False):
-            return False
+            return {"status" : False, "data" : f"No permission of name '{permission}' exists."}
         if (self.checkPermission(permission, steamid)):
-            return False
+            return {"status" : False, "data" : f"User {steamid} already has permission."}
         ET.SubElement(members, 'Member').text = steamid
         self.ref.save(self.ref.file)
-        return True
+        return {"status" : "True", "data": ""}
     
     # Removes steamid from a give permission group
     # If the user if not in the permssion group, returns False
