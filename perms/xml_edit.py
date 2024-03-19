@@ -69,7 +69,7 @@ class Permissions():
         return perm_list
     
     # Adds steamid to a given permission group
-    # If the permission group does not exist, it returns False
+    # If the permission group does not exist or user already in group, return False
     # Else returns True
     def addPermission(self, permission, steamid):
         # Check if steamid is already in the group

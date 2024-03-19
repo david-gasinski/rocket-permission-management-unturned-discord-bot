@@ -27,8 +27,7 @@ class GetPermission(BaseModel):
 
 class AddPermission(BaseModel):
     steam_id: str
-    permission: str
-    include_hex: bool = False
+    permissions: list[str]
 
 class Routes():
     def __init__(self, permissions, kits, logger):
@@ -51,15 +50,16 @@ class Routes():
         except Exception as e:
             self.logger.log_request(args.request_origin, self.post_list_permissions.__name__, False)
             self.logger_instance.error("Exception Stacktrace", exc_info=True)
-            return {"status" : True , "data" : []}
+            return {"status" : False , "data" : []}
         
     async def post_add_user_permission(self, args: AddPermission):
-        if args.include_hex == True:
-            return {'data': "hex"}
-        else:
-            return {'data': "no-hex"}
+        try:
+            for permission in args.permissions:
+                res = self.permissions.addPermission(permission, args.steam_id) # in the future, validate steam_id
+        except Exception as e:
+            return
 
 app = FastAPI()
-logger = Logger(f'util/logs/api/{datetime.today().strftime("%Y-%m-%d")}.log')
+logger = Logger(f'util/logs/api/{datetime.today( ).strftime("%Y-%m-%d")}.log')
 api_router = Routes(settings['perm_config'], settings['kits_config'], logger)
 app.include_router(api_router.router)
