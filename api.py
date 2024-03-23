@@ -56,7 +56,10 @@ class Routes():
     def _init_routes(self):
         self.router.add_api_route('/permissions/list', self.post_list_permissions,methods=['GET', 'POST'])
         self.router.add_api_route('/permissions/add', self.post_add_user_permission, methods=['POST'])
-    
+        self.router.add_api_route('/permissions/remove', self.post_remove_user_permission, methods=['POST'])
+        self.router.add_api_route('/permissions/members', self.post_retrieve_members, methods=['POST'])
+        self.router.add_api_route('/permissions/validate', self.post_has_permission, methods=['POST'])
+
     async def post_list_permissions(self, args: GetPermission):
         try:
             data = self.permissions.listPermissions(args.include_hex) 
