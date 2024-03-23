@@ -1,6 +1,4 @@
 
 
-
-
-if __name__ == '__main__':
-    
+string = "testofwords"
+print(string.capitalize())

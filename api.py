@@ -30,6 +30,19 @@ class AddPermission(BaseModel):
     permissions: list[str]
     request_origin: str
 
+class RemovePermission(BaseModel):
+    steam_id: list[str]
+    permissions: list[str]
+    request_origin: str
+
+class RetrieveMembers(BaseModel):
+    permissions: list[str]
+    request_origin: str
+
+class HasPermission(BaseModel):
+    steam_id: str
+    permissions: list[str]
+    request_origin: str
 
 class Routes():
     def __init__(self, permissions, kits, logger):
@@ -59,10 +72,62 @@ class Routes():
             for permission in args.permissions:
                 res = self.permissions.addPermission(permission, args.steam_id) # in the future, validate steam_id
                 self.logger.log_request(args.request_origin, self.post_add_user_permission.__name__, res["status"], res["data"])
+            return {"status" : res["status"], "data" : []}   
         except Exception as e:
-            self.logger.log_request(args.request_origin, self.post_list_permissions.__name__, False)
-            self.logger_instance.error("Exception Stacktrace", exc_info=True)
+            self.logger.log_request(args.request_origin, self.post_add_user_permission.__name__, False)
+            self.logger_instance.error("Exception Stacktrace:", exc_info=True)
             return {"status" : False , "data" : []}
+
+
+    async def post_remove_user_permission(self, args: RemovePermission):
+        try:
+            for permission in args.permissions:
+                res = self.permissions.removePermission(permission, args.steam_id)
+                self.logger.log_reqest(args.request_origin, self.post_remove_user_permission.__name__, res["status"], res["data"])
+            return {"status" : True, "data" : []}
+        except Exception as e:
+            self.logger.log_request(args.request_origin, self.post_remove_user_permission.__name__, False)
+            self.logger_instance.error("Exception Stacktrace:", exc_info=True)
+            return {"status" : False, "data" : []}
+        
+    async def post_retrieve_members(self, args: RetrieveMembers):
+        try:
+            members = []
+            for permission in args.permissions:
+                res = self.permissions.retrieveMembers(permission)
+                if not res:
+                    members.append({
+                        "status" : False,
+                        "permission" : "Permssion not found",
+                        "members" : []
+                    })
+                else:
+                    members.append({
+                        "status" : True,
+                        "permission" : permission,
+                        "members" : res
+                    })
+            return {"status" : True, "data" : members}
+        except Exception as e:
+            self.logger.log_request(args.request_origin, self.post_retrieve_members.__name__, False)
+            self.logger_instance.error("Exception Stacktrace:", exc_info=True)
+            return {"status" : False, "data" : []}
+        
+
+    async def post_has_permission(self, args: HasPermission):
+        try:
+            data = []
+            for permission in args.permissions:
+                res = self.permissions.checkPermission(permission, args.steam_id)
+                data.append({
+                    "permission" : permission, 
+                    "is_member" : res,
+                }) 
+        except Exception as e:
+            self.logger.log_request(args.request_origin, self.post_has_permission.__name__, False)
+            self.logger_instance.error("Exception Stacktrace:", exc_info=True)
+            return {"status" : False, "data" : []}
+
 
 app = FastAPI()
 logger = Logger(f'util/logs/api/{datetime.today( ).strftime("%Y-%m-%d")}.log')

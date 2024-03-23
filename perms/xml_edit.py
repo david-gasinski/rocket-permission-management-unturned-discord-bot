@@ -88,12 +88,12 @@ class Permissions():
     # Else returns True
     def removePermission(self, permission, steamid):
         members = self.retrieveMembers(permission)
-        if (members == False):
-            return False
-        if (self.checkPermission(permission, steamid) == False):
-            return False
+        if (members == False): # doesnt exist
+            return {"status" : False, "data" : f"No permission of name '{permission}' exists."}
+        if (self.checkPermission(permission, steamid) == False): # user is not in permission group
+            return {"status" : False, "data" : f"User {steamid} is not in the permission group, cannot remove."}
         for member in members:
             if (member.text.lower() == steamid.lower()):
                 members.remove(member)
                 self.ref.save(self.ref.file)
-                return True
+                return {"status" : True, "data" : f"Successfully removed user {steamid} from {permission}"}
